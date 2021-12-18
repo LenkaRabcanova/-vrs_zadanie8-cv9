@@ -120,6 +120,21 @@ void Error_Handler(void);
 #define DIGIT_2_ON		LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_6)
 #define DIGIT_3_ON		LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_2)
 #define DIGIT_TIME_ON	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_7)
+
+// defines for input port used by button
+#define		GPIO_PORT_BUTTON				btn_GPIO_Port
+#define		GPIO_PIN_BUTTON					btn_Pin
+
+// defines for "checkButtonState"
+#define		TRIGGER_RISE					1
+#define		TRIGGER_FALL					0
+
+#define		BUTTON_EXTI_TRIGGER				TRIGGER_FALL
+#define		BUTTON_EXTI_SAMPLES_WINDOW		30
+#define		BUTTON_EXTI_SAMPLES_REQUIRED	20
+
+uint8_t check_button_state(GPIO_TypeDef* PORT, uint8_t PIN);
+
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

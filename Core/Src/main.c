@@ -18,14 +18,17 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+
+
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
 #include "main.h"
 #include "i2c.h"
 #include "tim.h"
 #include "gpio.h"
-
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
-
+#include "string.h"
+#include "HTS221.h"
+#include "LPS25HB.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,6 +48,10 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+uint8_t switch_state = 0;
+uint8_t mode = 0;
+uint8_t length_retazec = 0;
+int tim2count = 0;
 
 const unsigned char seven_seg_digits_decode_abcdefg[75]= {
 /*  0     1     2     3     4     5     6     7     8     9     :     ;     */
@@ -82,10 +89,11 @@ const unsigned char seven_seg_digits_decode_gfedcba[75]= {
 
 
 //const unsigned char retazec[]="Jakub_Miklus_98350";
-const unsigned char retazec[]="Lenka_Rabcanova_98364";
-int orientation=0; //0=left ; 1=right
-int pos;
-int digit=0;
+//const unsigned char retazec[]="Lenka_Rabcanova_98364";
+volatile char retazec[20];
+volatile int orientation=0; //0=left ; 1=right
+volatile int digit=0;
+volatile int textposition = 0;
 
 /* USER CODE END PV */
 
@@ -262,30 +270,33 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  lps25hb_init();
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	   if(mode==0){
+		   strcpy(retazec, "TEMP_xx.x");
+		   length_retazec = strlen(retazec);
 
-	  int length_retazec = sizeof(retazec)-1;
-	    if (orientation==0){
-	    	for(int i=0;(i+4)<length_retazec;i++){
-	    		pos=i;
-	    		if((pos+4)==(length_retazec-1))
-	    			orientation=1;
-	                LL_mDelay(500);
-	    	}
-	    }
+	   }
+	   if(mode==1){
+		   strcpy(retazec, "HUM_xx");
+		   length_retazec = strlen(retazec);
 
-	    if(orientation==1){
-	    	for(int i=length_retazec-4;i>=0;i--){
-	    	    pos=i;
-	    	    if(pos==0)
-	    	    	orientation=0;
-	            LL_mDelay(500);
-	    	}
-	    }
+	   }
+	   if(mode==2){
+		   strcpy(retazec, "BAR_xxxx.xx");
+		   length_retazec = strlen(retazec);
+
+	   }
+	   if(mode==3){
+		   strcpy(retazec, "ALT_xxxx.x");
+		   length_retazec = strlen(retazec);
+
+	   }
+
   }
   /* USER CODE END 3 */
 }
@@ -324,6 +335,37 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN, uint8_t edge, uint8_t samples_window, uint8_t samples_required)
+{
+	  //type your code for "checkButtonState" implementation here:
+	uint8_t button_state = 0, timeout = 0;
+
+		while(button_state < samples_required && timeout < samples_window)
+		{
+			if((LL_GPIO_IsInputPinSet(PORT, PIN) && (edge==TRIGGER_RISE)) || (!LL_GPIO_IsInputPinSet(PORT, PIN) && (edge==TRIGGER_FALL)))/*LL_GPIO_IsInputPinSet(PORT, PIN)*/
+			{
+				button_state += 1;
+			}
+			else
+			{
+				button_state = 0;
+			}
+
+			timeout += 1;
+			LL_mDelay(1);
+		}
+
+		if((button_state >= samples_required) && (timeout <= samples_window))
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+}
+
 void updateDisplay(void)
 {
 //	for(uint8_t i = pos; i < pos+4; i++)
@@ -332,7 +374,7 @@ void updateDisplay(void)
 	resetDigits();
 	resetSegments();
 
-	char symbol = retazec[pos+digit];
+	char symbol = retazec[textposition+digit];
 	char segments = decode_7seg(symbol);
 	display_symbol(segments, digit);
 
@@ -348,12 +390,57 @@ void updateDisplay(void)
 //Update displayed data and keep display ON
 void TIM2_IRQHandler(void)
 {
+	//1000 za s
+	tim2count = tim2count + 1;
+	if(tim2count >=500) {
+		tim2count = 0; //2 krat za sekundu sa vykona tento if
+
+		//Posun textu
+		if (orientation==0){
+			textposition = textposition + 1;
+			if((textposition+4)>=(length_retazec))
+			    orientation=1;
+		}
+
+		else{
+			textposition = textposition - 1;
+			if((textposition)<=0)
+			    orientation=0;
+		}
+
+	}
+
 	if(LL_TIM_IsActiveFlag_UPDATE(TIM2))
 	{
 		updateDisplay();
 	}
 
 	LL_TIM_ClearFlag_UPDATE(TIM2);
+
+
+}
+
+void EXTI3_IRQHandler(void)
+{
+	if(checkButtonState(GPIO_PORT_BUTTON,
+						GPIO_PIN_BUTTON,
+						BUTTON_EXTI_TRIGGER,
+						BUTTON_EXTI_SAMPLES_WINDOW,
+						BUTTON_EXTI_SAMPLES_REQUIRED))
+	{
+		//switch_state ^= 1;
+		mode = mode+1;
+		if (mode > 3) {
+			mode = 0;
+		}
+		textposition = 0;
+		orientation = 0;
+	}
+
+	/* Clear EXTI4 pending register flag */
+
+		//type your code for pending register flag clear here:
+	EXTI->PR |= (1 << 4);
 }
 /* USER CODE END 4 */
 

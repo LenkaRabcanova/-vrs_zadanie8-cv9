@@ -1,5 +1,5 @@
-Core/LPS25HB/LPS25HB.o: ../Core/LPS25HB/LPS25HB.c \
- ../Core/LPS25HB/lps25hb.h ../Core/Inc/i2c.h ../Core/Inc/main.h \
+Core/Src/LPS25HB.o: ../Core/Src/LPS25HB.c ../Core/Inc/lps25hb.h \
+ ../Core/Inc/i2c.h ../Core/Inc/main.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_i2c.h \
  ../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f3xx.h \
  ../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303x8.h \
@@ -19,7 +19,7 @@ Core/LPS25HB/LPS25HB.o: ../Core/LPS25HB/LPS25HB.c \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_tim.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_gpio.h
 
-../Core/LPS25HB/lps25hb.h:
+../Core/Inc/lps25hb.h:
 
 ../Core/Inc/i2c.h:
 

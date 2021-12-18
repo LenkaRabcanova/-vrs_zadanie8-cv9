@@ -18,7 +18,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_tim.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_gpio.h \
  ../Core/Inc/i2c.h ../Core/Inc/main.h ../Core/Inc/tim.h \
- ../Core/Inc/gpio.h
+ ../Core/Inc/gpio.h ../Core/Inc/HTS221.h ../Core/Inc/i2c.h \
+ ../Core/Inc/LPS25HB.h
 
 ../Core/Inc/main.h:
 
@@ -65,3 +66,9 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/tim.h:
 
 ../Core/Inc/gpio.h:
+
+../Core/Inc/HTS221.h:
+
+../Core/Inc/i2c.h:
+
+../Core/Inc/LPS25HB.h:
