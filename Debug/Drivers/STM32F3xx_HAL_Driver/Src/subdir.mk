@@ -8,6 +8,7 @@ C_SRCS += \
 ../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_dma.c \
 ../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_exti.c \
 ../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_gpio.c \
+../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_i2c.c \
 ../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_rcc.c \
 ../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_tim.c \
 ../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_utils.c 
@@ -16,6 +17,7 @@ OBJS += \
 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_dma.o \
 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_exti.o \
 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_gpio.o \
+./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_i2c.o \
 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_rcc.o \
 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_tim.o \
 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_utils.o 
@@ -24,6 +26,7 @@ C_DEPS += \
 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_dma.d \
 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_exti.d \
 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_gpio.d \
+./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_i2c.d \
 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_rcc.d \
 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_tim.d \
 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_utils.d 

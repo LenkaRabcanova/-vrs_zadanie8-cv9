@@ -28,6 +28,8 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
+
+#include "stm32f3xx_ll_i2c.h"
 #include "stm32f3xx_ll_rcc.h"
 #include "stm32f3xx_ll_bus.h"
 #include "stm32f3xx_ll_system.h"
@@ -93,6 +95,9 @@ void Error_Handler(void);
 #define segmentC_GPIO_Port GPIOA
 #define segmentE_Pin LL_GPIO_PIN_11
 #define segmentE_GPIO_Port GPIOA
+#define btn_Pin LL_GPIO_PIN_3
+#define btn_GPIO_Port GPIOB
+#define btn_EXTI_IRQn EXTI3_IRQn
 #define segmentG_Pin LL_GPIO_PIN_4
 #define segmentG_GPIO_Port GPIOB
 #define segmentD_Pin LL_GPIO_PIN_5

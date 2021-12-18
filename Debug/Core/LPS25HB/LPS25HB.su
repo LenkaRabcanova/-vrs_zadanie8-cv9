@@ -1,0 +1,5 @@
+LPS25HB.c:14:6:lps25hb_write_byte	16	static
+LPS25HB.c:20:10:lps25hb_read_byte	32	static
+LPS25HB.c:26:9:lps25hb_init	16	static
+LPS25HB.c:60:7:lps25hb_get_pressure	24	static
+LPS25HB.c:75:7:lps25hb_get_alltitude	24	static
