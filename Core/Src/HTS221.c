@@ -67,10 +67,10 @@ uint8_t hts221_init(void) {
 	uint8_t T1T0MSB = hts221_read_byte(HTS221_ADDRESS_T1T0MSB);
 
 	uint16_t T0degCx8MSB =  T1T0MSB & 0x3;
-	uint16_t T1degCx8MSB =  (T1T0MSB & (0x3 << 2) >> 2);
+	uint16_t T1degCx8MSB =  (T1T0MSB & (0x3 << 2)) >> 2;
 
-	uint16_t T0degCx8_final = T0degCx8  | (T0degCx8MSB << 8);
-	uint16_t T1degCx8_final = T1degCx8  | (T1degCx8MSB << 8);
+	int16_t T0degCx8_final = T0degCx8  | (T0degCx8MSB << 8);
+	int16_t T1degCx8_final = T1degCx8  | (T1degCx8MSB << 8);
 
 
 
@@ -78,14 +78,14 @@ uint8_t hts221_init(void) {
 	uint8_t H0T0OUTLOW = hts221_read_byte(HTS221_ADDRESS_H0T0OUTL);
 	uint8_t H0T0OUTHIGH = hts221_read_byte(HTS221_ADDRESS_H0T0OUTH);
 
-	uint16_t H0T0OUT = H0T0OUTLOW | (H0T0OUTHIGH << 8);
+	int16_t H0T0OUT = H0T0OUTLOW | (H0T0OUTHIGH << 8);
 
 
 
 	uint8_t H1T0OUTLOW = hts221_read_byte(HTS221_ADDRESS_H1T0OUTL);
 	uint8_t H1T0OUTHIGH = hts221_read_byte(HTS221_ADDRESS_H1T0OUTH);
 
-	uint16_t H1TOUT = H1T0OUTLOW  | (H1T0OUTHIGH << 8);
+	int16_t H1TOUT = H1T0OUTLOW  | (H1T0OUTHIGH << 8);
 
 
 
@@ -93,7 +93,7 @@ uint8_t hts221_init(void) {
 	uint8_t T0OUTLOW = hts221_read_byte(HTS221_ADDRESS_T0OUTL);
 	uint8_t T0OUTHIGH = hts221_read_byte(HTS221_ADDRESS_T0OUTH);
 
-	uint16_t T0OUT = T0OUTLOW | (T0OUTHIGH << 8);
+	int16_t T0OUT = T0OUTLOW | (T0OUTHIGH << 8);
 
 
 
@@ -101,19 +101,19 @@ uint8_t hts221_init(void) {
 	uint8_t T1OUTLOW = hts221_read_byte(HTS221_ADDRESS_T1OUTL);
 	uint8_t T1OUTHIGH = hts221_read_byte(HTS221_ADDRESS_T1OUTH);
 
-	uint16_t T1OUT =  T1OUTLOW | (T1OUTHIGH << 8);
+	int16_t T1OUT =  T1OUTLOW | (T1OUTHIGH << 8);
 
 
 	//HODNOTY POTREBNE PRE KALIBRACIU VYSLEDNEJ HODNOTY TEPLOTY (TEMPETATURE)
-	T0deg = T0degCx8_final/8;
-	T1deg = T1degCx8_final/8;
+	T0deg = T0degCx8_final/8.0f;
+	T1deg = T1degCx8_final/8.0f;
 
 	T0out = T0OUT;
 	T1out = T1OUT;
 
 	//HODNOTY POTREBNE PRE KALIBRACIU VYSLEDNEJ HODNOTY VLHKOSTI (RELATIVE HUMIDITY)
-	H0rh = H0rHx2/2;
-	H1rh = H1rHx2/2;
+	H0rh = H0rHx2/2.0f;
+	H1rh = H1rHx2/2.0f;
 
 	H0T0out = H0T0OUT;
 	H1T0out = H1TOUT;
