@@ -123,11 +123,16 @@ void resetDigits(void)
 
 unsigned char decode_7seg(unsigned char chr)
 { /* Implementation uses ASCII */
+	if (chr == '.') {
+		return (1<<7); //DP
+	}
+	if (chr == '-') {
+		return (1<<0); //segment G
+	}
+
     if (chr > (unsigned char)'z')
         return 0x00;
     return seven_seg_digits_decode_abcdefg[chr - '0'];
-    /* or */
-//	return seven_seg_digits_decode_gfedcba[chr - '0'];
 }
 
 
@@ -212,7 +217,16 @@ void display_symbol(char symbol,int digit)
 
 	if(pomocna==1)
 		LL_GPIO_ResetOutputPin(segmentA_GPIO_Port, segmentA_Pin);
+
+	pomocna=symbol;
+	pomocna >>= 7;
+	pomocna &= 1;
+
+	if(pomocna==1)
+		LL_GPIO_ResetOutputPin(segmentDP_GPIO_Port, segmentDP_Pin);
+
 }
+
 /* USER CODE END 0 */
 
 /**
@@ -381,9 +395,10 @@ void updateDisplay(void)
 
 	resetDigits();
 	resetSegments();
-
 	char symbol = retazec[textposition+digit];
+
 	char segments = decode_7seg(symbol);
+
 	display_symbol(segments, digit);
 
 	digit = digit+1;
