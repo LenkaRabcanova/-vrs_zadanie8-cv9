@@ -18,14 +18,13 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
-
-
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
 #include "main.h"
 #include "i2c.h"
 #include "tim.h"
 #include "gpio.h"
+
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
 #include "string.h"
 #include "HTS221.h"
 #include "LPS25HB.h"
@@ -70,27 +69,10 @@ const unsigned char seven_seg_digits_decode_abcdefg[75]= {
     0x13, 0x3B, 0x6D
 };
 
-const unsigned char seven_seg_digits_decode_gfedcba[75]= {
-/*  0     1     2     3     4     5     6     7     8     9     :     ;     */
-    0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F, 0x00, 0x00,
-/*  <     =     >     ?     @     A     B     C     D     E     F     G     */
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x77, 0x7C, 0x39, 0x5E, 0x79, 0x71, 0x3D,
-/*  H     I     J     K     L     M     N     O     P     Q     R     S     */
-    0x76, 0x30, 0x1E, 0x75, 0x38, 0x55, 0x54, 0x5C, 0x73, 0x67, 0x50, 0x6D,
-/*  T     U     V     W     X     Y     Z     [     \     ]     ^     _     */
-    0x78, 0x3E, 0x1C, 0x1D, 0x64, 0x6E, 0x5B, 0x00, 0x00, 0x00, 0x00, 0x00,
-/*  `     a     b     c     d     e     f     g     h     i     j     k     */
-    0x00, 0x77, 0x7C, 0x39, 0x5E, 0x79, 0x71, 0x3D, 0x76, 0x30, 0x1E, 0x75,
-/*  l     m     n     o     p     q     r     s     t     u     v     w     */
-    0x38, 0x55, 0x54, 0x5C, 0x73, 0x67, 0x50, 0x6D, 0x78, 0x3E, 0x1C, 0x1D,
-/*  x     y     z     */
-    0x64, 0x6E, 0x5B
-};
-
 
 //const unsigned char retazec[]="Jakub_Miklus_98350";
 //const unsigned char retazec[]="Lenka_Rabcanova_98364";
-volatile char retazec[20];
+char retazec[20];
 volatile int orientation=0; //0=left ; 1=right
 volatile int digit=0;
 volatile int textposition = 0;
@@ -120,11 +102,18 @@ void resetSegments(void)
 /* Reset (turn-off) all digits*/
 void resetDigits(void)
 {
-	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_2);
-	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_5);
-	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_4);
-	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_6);
-	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_7);
+
+//	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_2);
+//	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_5);
+//	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_4);
+//	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_6);
+//	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_7);
+
+	LL_GPIO_ResetOutputPin(digit0_GPIO_Port, digit0_Pin);
+	LL_GPIO_ResetOutputPin(digit1_GPIO_Port, digit1_Pin);
+	LL_GPIO_ResetOutputPin(digit2_GPIO_Port, digit2_Pin);
+	LL_GPIO_ResetOutputPin(digit3_GPIO_Port, digit3_Pin);
+	LL_GPIO_ResetOutputPin(digitTime_GPIO_Port, digitTime_Pin);
 }
 
 
@@ -368,8 +357,6 @@ uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN, uint8_t edge, uint8_t 
 
 void updateDisplay(void)
 {
-//	for(uint8_t i = pos; i < pos+4; i++)
-//	{
 
 	resetDigits();
 	resetSegments();
@@ -382,9 +369,6 @@ void updateDisplay(void)
 	if(digit >= 4)
 		digit=0;
 
-//		digit+=1;
-
-//	}
 }
 
 //Update displayed data and keep display ON

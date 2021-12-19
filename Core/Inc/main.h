@@ -83,18 +83,18 @@ void Error_Handler(void);
 #define segmentF_GPIO_Port GPIOA
 #define digit1_Pin LL_GPIO_PIN_4
 #define digit1_GPIO_Port GPIOA
-#define digit0_Pin LL_GPIO_PIN_5
-#define digit0_GPIO_Port GPIOA
-#define digit2_Pin LL_GPIO_PIN_6
-#define digit2_GPIO_Port GPIOA
 #define digitTime_Pin LL_GPIO_PIN_7
 #define digitTime_GPIO_Port GPIOA
+#define digit0_Pin LL_GPIO_PIN_0
+#define digit0_GPIO_Port GPIOB
 #define segmentDP_Pin LL_GPIO_PIN_1
 #define segmentDP_GPIO_Port GPIOB
 #define segmentC_Pin LL_GPIO_PIN_8
 #define segmentC_GPIO_Port GPIOA
 #define segmentE_Pin LL_GPIO_PIN_11
 #define segmentE_GPIO_Port GPIOA
+#define digit2_Pin LL_GPIO_PIN_12
+#define digit2_GPIO_Port GPIOA
 #define btn_Pin LL_GPIO_PIN_3
 #define btn_GPIO_Port GPIOB
 #define btn_EXTI_IRQn EXTI3_IRQn
@@ -115,11 +115,11 @@ void Error_Handler(void);
                                                                  0 bit  for subpriority */
 #endif
 /* USER CODE BEGIN Private defines */
-#define DIGIT_0_ON		LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_5)
-#define DIGIT_1_ON		LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_4)
-#define DIGIT_2_ON		LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_6)
-#define DIGIT_3_ON		LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_2)
-#define DIGIT_TIME_ON	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_7)
+#define DIGIT_0_ON		LL_GPIO_SetOutputPin(digit0_GPIO_Port, digit0_Pin)
+#define DIGIT_1_ON		LL_GPIO_SetOutputPin(digit1_GPIO_Port, digit1_Pin)
+#define DIGIT_2_ON		LL_GPIO_SetOutputPin(digit2_GPIO_Port, digit2_Pin)
+#define DIGIT_3_ON		LL_GPIO_SetOutputPin(digit3_GPIO_Port, digit3_Pin)
+#define DIGIT_TIME_ON	LL_GPIO_SetOutputPin(digitTime_GPIO_Port, digitTime_Pin)
 
 // defines for input port used by button
 #define		GPIO_PORT_BUTTON				btn_GPIO_Port
