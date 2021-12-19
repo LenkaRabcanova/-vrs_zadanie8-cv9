@@ -28,6 +28,7 @@
 #include "string.h"
 #include "HTS221.h"
 #include "LPS25HB.h"
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -260,32 +261,52 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   lps25hb_init();
+  hts221_init();
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
 	   if(mode==0){
-		   strcpy(retazec, "TEMP_xx.x");
+		   float temperature = hts221_get_temperature();
+		   if(temperature>=100) {
+			   temperature = 99.9;
+		   }
+		   if(temperature<=-100) {
+			   temperature = -99.9;
+		   }
+		   sprintf(retazec, "TEMP_%03.1f", temperature);
+		   //strcpy(retazec, "TEMP_xx.x");
 		   length_retazec = strlen(retazec);
 
 	   }
 	   if(mode==1){
-		   strcpy(retazec, "HUM_xx");
+		   float humidity = hts221_get_relative_humidity();
+		   if(humidity>99) {
+			   humidity = 99;
+		   }
+		   if(humidity<=0) {
+		   	  humidity = 0;
+		   }
+		   sprintf(retazec, "HUM_%02.0f", humidity);
+		   //strcpy(retazec, "HUM_xx");
 		   length_retazec = strlen(retazec);
 
 	   }
 	   if(mode==2){
-		   strcpy(retazec, "BAR_xxxx.xx");
+		   float final_pressure = lps25hb_get_pressure();
+		   sprintf(retazec, "BAR_%06.2f", final_pressure);
+		   //strcpy(retazec, "BAR_xxxx.xx");
 		   length_retazec = strlen(retazec);
 
 	   }
 	   if(mode==3){
-		   strcpy(retazec, "ALT_xxxx.x");
+		   float final_pressure = lps25hb_get_pressure();
+		   float alltitude = lps25hb_get_alltitude(final_pressure);
+		   sprintf(retazec, "ALT_%05.1f", alltitude);
+		   //strcpy(retazec, "ALT_xxxx.x");
 		   length_retazec = strlen(retazec);
-
 	   }
-
   }
   /* USER CODE END 3 */
 }

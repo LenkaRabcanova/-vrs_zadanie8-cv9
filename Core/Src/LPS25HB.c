@@ -20,7 +20,8 @@ void lps25hb_write_byte(uint8_t reg_addr, uint8_t value)
 uint8_t  lps25hb_read_byte(uint8_t reg_addr)
 {
 	uint8_t data = 0;
-	return *(i2c_master_read(&data, 1, reg_addr, address, 0));
+	(i2c_master_read(&data, 1, reg_addr, address, 0));
+	return data;
 }
 
 uint8_t lps25hb_init(void) {

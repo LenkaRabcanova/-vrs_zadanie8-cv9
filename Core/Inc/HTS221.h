@@ -10,7 +10,7 @@
 #include "stdint.h"
 #include "i2c.h"
 
-#define HTS221_I2C_ADDRESS 0b1011111
+#define HTS221_I2C_ADDRESS 0b10111110
 #define HTS221_REG_WHO_AM_I_ADDR 0x0F  //adresa konkrétneho registra v snimači
 #define HTS221_WHO_AM_I_VALUE 0b10111100
 #define HTS221_ADDRESS_CTRL1 0x20

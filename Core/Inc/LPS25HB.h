@@ -9,8 +9,8 @@
 #define LPS25HB_LPS25HB_H_
 #include "stdint.h"
 #include "i2c.h"
-#define LPS25HB_I2C_ADDRESS_0 0b1011100 //na zem
-#define LPS25HB_I2C_ADDRESS_1 0b1011101 //na napajanie
+#define LPS25HB_I2C_ADDRESS_0 0b10111000 //na zem
+#define LPS25HB_I2C_ADDRESS_1 0b10111010 //na napajanie
 #define LPS25HB_REG_WHO_AM_I_ADDR 0x0F //adresa konkrétneho registra v snimači
 #define LPS25HB_WHO_AM_I_VALUE 0b10111101
 #define LPS25HB_ADDRESS_CTRL1 0x20
