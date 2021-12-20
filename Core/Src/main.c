@@ -141,7 +141,7 @@ void display_symbol(char symbol,int digit)
 	switch (digit)
 	{
 	    case 0:
-		    DIGIT_0_ON;
+                DIGIT_0_ON;
 	      break;
 
 	    case 1:
@@ -397,13 +397,23 @@ void updateDisplay(void)
 	resetSegments();
 	char symbol = retazec[textposition+digit];
 
+        if (symbol=='.'){
 	char segments = decode_7seg(symbol);
+
+	display_symbol(segments, digit);
+        }
+
+        else{
+
+        char segments = decode_7seg(symbol);
 
 	display_symbol(segments, digit);
 
 	digit = digit+1;
 	if(digit >= 4)
-		digit=0;
+		digit=0
+
+        }
 
 }
 
