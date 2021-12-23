@@ -52,6 +52,8 @@ uint8_t switch_state = 0;
 uint8_t mode = 0;
 uint8_t length_retazec = 0;
 int tim2count = 0;
+int x1=0;
+int x2=0;
 
 const unsigned char seven_seg_digits_decode_abcdefg[75]= {
 /*  0     1     2     3     4     5     6     7     8     9     :     ;     */
@@ -395,12 +397,13 @@ void updateDisplay(void)
 
 	resetDigits();
 	resetSegments();
-	char symbol = retazec[textposition+digit];
+	char symbol = retazec[textposition+digit+x2];
 
         if (symbol=='.'){
 	char segments = decode_7seg(symbol);
 
 	display_symbol(segments, digit);
+        x2=1;
         }
 
         else{
@@ -411,7 +414,10 @@ void updateDisplay(void)
 
 	digit = digit+1;
 	if(digit >= 4)
-		digit=0
+		digit=0;
+                x2=0;
+
+        }
 
         }
 
