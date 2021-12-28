@@ -397,22 +397,26 @@ void updateDisplay(void)
 	resetDigits();
 	resetSegments();
 	char symbol = retazec[textposition+digit+x2];
+        char aux='\0';
+ 
+        if ((length_retazec-1)<textposition+digit)
+             aux=retazec[textposition+digit+1];
 
-	if (symbol=='.'){
-		char segments = decode_7seg(symbol);
-
-		display_symbol(segments, digit);
-        x2=1;
+	if (aux=='.'){
+		char aux= decode_7seg(aux);
+                x2=1;
 	}
-	else{
+        else
+          aux='\0';
+	
         char segments = decode_7seg(symbol);
 
-		display_symbol(segments, digit);
+	display_symbol(segments+aux, digit);
 
-		digit = digit+1;
-		if(digit >= 4)
-			digit=0;
-			x2=0;
+	digit = digit+1;
+	if(digit >= 4){
+		digit=0;
+		x2=0;
         }
 }
 
