@@ -394,33 +394,26 @@ uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN, uint8_t edge, uint8_t 
 
 void updateDisplay(void)
 {
-
 	resetDigits();
 	resetSegments();
 	char symbol = retazec[textposition+digit+x2];
 
-        if (symbol=='.'){
-	char segments = decode_7seg(symbol);
+	if (symbol=='.'){
+		char segments = decode_7seg(symbol);
 
-	display_symbol(segments, digit);
+		display_symbol(segments, digit);
         x2=1;
-        }
-
-        else{
-
+	}
+	else{
         char segments = decode_7seg(symbol);
 
-	display_symbol(segments, digit);
+		display_symbol(segments, digit);
 
-	digit = digit+1;
-	if(digit >= 4)
-		digit=0;
-                x2=0;
-
+		digit = digit+1;
+		if(digit >= 4)
+			digit=0;
+			x2=0;
         }
-
-        }
-
 }
 
 //Update displayed data and keep display ON
