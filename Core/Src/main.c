@@ -220,14 +220,13 @@ void display_symbol(char symbol,int digit)
 	if(pomocna==1)
 		LL_GPIO_ResetOutputPin(segmentA_GPIO_Port, segmentA_Pin);
 
-	pomocna=symbol;
-	pomocna >>= 7;
-	pomocna &= 1;
-
-	if(pomocna==1)
-		LL_GPIO_ResetOutputPin(segmentDP_GPIO_Port, segmentDP_Pin);
-
 }
+
+void display_dot()
+{
+    LL_GPIO_ResetOutputPin(segmentDP_GPIO_Port, segmentDP_Pin);
+}
+
 
 /* USER CODE END 0 */
 
@@ -397,21 +396,22 @@ void updateDisplay(void)
 	resetDigits();
 	resetSegments();
 	char symbol = retazec[textposition+digit+x2];
-        char aux='\0';
- 
-        if ((length_retazec-1)<textposition+digit)
+        char aux;
+
+
+        char segments = decode_7seg(symbol);
+
+	display_symbol(segments, digit);
+
+       
+        if ((length_retazec-1)>textposition+digit)
              aux=retazec[textposition+digit+1];
 
 	if (aux=='.'){
-		char aux= decode_7seg(aux);
+		display_dot();
                 x2=1;
 	}
-        else
-          aux='\0';
-	
-        char segments = decode_7seg(symbol);
 
-	display_symbol(segments+aux, digit);
 
 	digit = digit+1;
 	if(digit >= 4){
