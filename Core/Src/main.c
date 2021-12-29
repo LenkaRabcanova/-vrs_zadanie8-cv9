@@ -431,7 +431,7 @@ void TIM2_IRQHandler(void)
 		//Posun textu
 		if (orientation==0){
 			textposition = textposition + 1;
-			if((textposition+4)>=(length_retazec))
+			if((textposition+4+x2)>=(length_retazec))
 			    orientation=1;
 		}
 
