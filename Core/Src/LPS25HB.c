@@ -68,7 +68,7 @@ float lps25hb_get_pressure() {
 
 	float final_pressure;
 
-	final_pressure = pressure/4096;
+	final_pressure = pressure/4096.0;
 
 	return final_pressure;
 }

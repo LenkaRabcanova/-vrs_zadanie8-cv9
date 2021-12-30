@@ -54,6 +54,7 @@ uint8_t length_retazec = 0;
 int tim2count = 0;
 int x1=0;
 int x2=0;
+volatile int dots_in_retazec = 0;
 
 const unsigned char seven_seg_digits_decode_abcdefg[75]= {
 /*  0     1     2     3     4     5     6     7     8     9     :     ;     */
@@ -85,7 +86,18 @@ volatile int textposition = 0;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
+int dotsInString(char retazec[], int length)
+{
+	int n = 0;
+	for(int i = 0; i < length; i++)
+	{
+		if(retazec[i] == '.')
+		{
+			n++;
+		}
+	}
+	return n;
+}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -293,6 +305,7 @@ int main(void)
 		   sprintf(retazec, "TEMP_%03.1f", temperature);
 		   //strcpy(retazec, "TEMP_xx.x");
 		   length_retazec = strlen(retazec);
+		   dots_in_retazec = dotsInString(retazec, length_retazec);
 
 	   }
 	   if(mode==1){
@@ -306,6 +319,7 @@ int main(void)
 		   sprintf(retazec, "HUM_%02.0f", humidity);
 		   //strcpy(retazec, "HUM_xx");
 		   length_retazec = strlen(retazec);
+		   dots_in_retazec = dotsInString(retazec, length_retazec);
 
 	   }
 	   if(mode==2){
@@ -313,6 +327,7 @@ int main(void)
 		   sprintf(retazec, "BAR_%06.2f", final_pressure);
 		   //strcpy(retazec, "BAR_xxxx.xx");
 		   length_retazec = strlen(retazec);
+		   dots_in_retazec = dotsInString(retazec, length_retazec);
 
 	   }
 	   if(mode==3){
@@ -321,6 +336,7 @@ int main(void)
 		   sprintf(retazec, "ALT_%05.1f", alltitude);
 		   //strcpy(retazec, "ALT_xxxx.x");
 		   length_retazec = strlen(retazec);
+		   dots_in_retazec = dotsInString(retazec, length_retazec);
 	   }
   }
   /* USER CODE END 3 */
@@ -431,7 +447,7 @@ void TIM2_IRQHandler(void)
 		//Posun textu
 		if (orientation==0){
 			textposition = textposition + 1;
-			if((textposition+4+x2)>=(length_retazec))
+			if((textposition+4+x2+dots_in_retazec)>=(length_retazec))
 			    orientation=1;
 		}
 
